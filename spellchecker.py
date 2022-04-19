@@ -24,7 +24,7 @@ class SpellChecker:
         incorrect = []
         for word in self.text:
             if word not in self.dictionary.dict:
-                finalChecker = chr(ord(word[0]) + 32) + word[1:]  # Accounts for uppercase characters (not present in the dictionary I make use of)
+                finalChecker = chr(ord(word[0]) + 32) + word[1:]  # Accounts for uppercase characters (not present in the dictionaries I make use of)
                 if finalChecker not in self.dictionary.dict:  # Adds the word to the incorrect list if it cannot be found in the dictionary
                     incorrect.append(word)
         return incorrect
@@ -36,7 +36,7 @@ class SpellChecker:
         """
         return f'Incorrectly spelled words: {self.incorrectWords()}'
 
-    def suggest(self):
+    def suggestWords(self):
         """
         Takes each word that the user misspelled, and swaps each pair of adjacent characters, and suggesting that word
         to the user if it is found in their dictionary
@@ -50,15 +50,33 @@ class SpellChecker:
             print('Incorrectly spelled words:', incorrectWords)
         for word in incorrectWords:
             for i in range(len(word) - 1):
-                for j in range(1, len(word)):
+                for j in range(1, len(word)):   # Chose two loops because it also finds words misspelled by more than one
+                    # transposition space (i.e. both dfeault and dtfaule have default suggested when used)
                     listed = list(word)     # Creates a list of characters for each word, and swapping characters based on indices i and j
                     listed[i], listed[j] = listed[j], listed[i]
                     newWord = ''.join(listed)   # Rejoin the list of characters into a word
                     if newWord in self.dictionary.dict:
-                        if word not in suggested:  # Accounting for repeated incorrect entries
+                        if newWord not in suggested:  # Accounting for repeated incorrect entries
                             print('Unknown word: ', word, '. Did you mean "', newWord, '"?', sep='')
-                            suggested.append(word)
+                            suggested.append(newWord)
         return
+
+    def checkDoubleLetters(self):
+        incorrectWords = self.incorrectWords()
+        seen = []
+        if len(incorrectWords) == 0:
+            return 'No incorrectly spelled words detected.'
+        for word in incorrectWords:
+            listed = list(word)
+            for i in range(len(listed) - 1, 0, -1):  # Traverse the word in reverse order (had errors trying to access invalid indices when I tried to traverse forward
+                if listed[i] == listed[i - 1]:  # Checks adjacent characters for sameness
+                    listed.pop(i)
+            newWord = ''.join(listed)  # Rejoin the list of characters into a word
+            if newWord in self.dictionary.dict:
+                if newWord not in seen:  # Accounting for repeated incorrect entries
+                    print('Unknown word: ', word, '. Did you mean "', newWord, '"?', sep='')
+                    seen.append(word)
+
 
     def removeDoubleLetters(self):
         """
@@ -85,7 +103,7 @@ class SpellChecker:
         """
         return self.rawText
 
-    def getNums(self):
+    def charsToNums(self):
         """
         Creates a list of all numbers found in the user's text (all numbers less than or equal to 100, and greater than
         zero)
@@ -297,6 +315,22 @@ class SpellChecker:
                 nums.append(int(99))
             if word == 'onehundred':
                 nums.append(int(100))
+            if word == 'twohundred':
+                nums.append(int(200))
+            if word == 'threehundred':
+                nums.append(int(300))
+            if word == 'fourhundred':
+                nums.append(int(400))
+            if word == 'fivehundred':
+                nums.append(int(500))
+            if word == 'sixhundred':
+                nums.append(int(600))
+            if word == 'sevenhundred':
+                nums.append(int(700))
+            if word == 'eighthundred':
+                nums.append(int(800))
+            if word == 'ninehundred':
+                nums.append(int(900))
         if len(nums) == 0:
             return 'No numbers within range detected in your passage.'
         return f'Numbers found in your passage: {nums}'
