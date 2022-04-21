@@ -11,7 +11,8 @@ class SpellChecker:
         :param text: the text that the user wants to check for spelling errors
         """
         self.dictionary = dictionary
-        finalText = text.translate(str.maketrans('', '', string.punctuation))  # Removes punctuation from word list
+        newText = text.replace('-', ' ')
+        finalText = newText.translate(str.maketrans('', '', string.punctuation))  # Removes punctuation from word list (third parameter of the maketrans() function instructs the machine to remove that character if it is found (mapped to a dictionary), in this case punctuation, and then that dictionary is mapped to the text, and punctuation is removed
         self.text = finalText.split()   # List of words to operate on for spell checking
         self.rawText = text     # Actual passage entered by user
 
@@ -78,7 +79,7 @@ class SpellChecker:
                     seen.append(word)
 
 
-    def removeDoubleLetters(self):
+    def removeDoubleChars(self):
         """
         Removes all set of double characters found in the user's entered passage, and updates their text based on this
         operation, and returns their updated raw passage to them
@@ -112,225 +113,216 @@ class SpellChecker:
         """
         lowerWords = [word.lower() for word in self.text]  # Makes all words lowercase for detection purposes
         nums = []
-        for word in lowerWords:
-            if word == 'zero':  # Straightforward: If the word is a number, add that number to the list of numbers
+        for i in range(len(lowerWords) - 1):
+            if lowerWords[i] == 'zero':  # Straightforward: If the word is a number, add that number to the list of numbers
                 nums.append(int(0))
-            if word == 'one':
+            if lowerWords[i] == 'one':
                 nums.append(int(1))
-            if word == 'two':
+            if lowerWords[i] == 'two':
                 nums.append(int(2))
-            if word == 'three':
+            if lowerWords[i] == 'three':
                 nums.append(int(3))
-            if word == 'four':
+            if lowerWords[i] == 'four':
                 nums.append(int(4))
-            if word == 'five':
+            if lowerWords[i] == 'five':
                 nums.append(int(5))
-            if word == 'six':
+            if lowerWords[i] == 'six':
                 nums.append(int(6))
-            if word == 'seven':
+            if lowerWords[i] == 'seven':
                 nums.append(int(7))
-            if word == 'eight':
+            if lowerWords[i] == 'eight':
                 nums.append(int(8))
-            if word == 'nine':
+            if lowerWords[i] == 'nine':
                 nums.append(int(9))
-            if word == 'ten':
+            if lowerWords[i] == 'ten':
                 nums.append(int(10))
-            if word == 'eleven':
+            if lowerWords[i] == 'eleven':
                 nums.append(int(11))
-            if word == 'twelve':
+            if lowerWords[i] == 'twelve':
                 nums.append(int(12))
-            if word == 'thirteen':
+            if lowerWords[i] == 'thirteen':
                 nums.append(int(13))
-            if word == 'fourteen':
+            if lowerWords[i] == 'fourteen':
                 nums.append(int(14))
-            if word == 'fifteen':
+            if lowerWords[i] == 'fifteen':
                 nums.append(int(15))
-            if word == 'sixteen':
+            if lowerWords[i] == 'sixteen':
                 nums.append(int(16))
-            if word == 'seventeen':
+            if lowerWords[i] == 'seventeen':
                 nums.append(int(17))
-            if word == 'eighteen':
+            if lowerWords[i] == 'eighteen':
                 nums.append(int(18))
-            if word == 'nineteen':
+            if lowerWords[i] == 'nineteen':
                 nums.append(int(19))
-            if word == 'twenty':
-                nums.append(int(20))
-            if word == 'twentyone':  # Accounts for numbers separated by parentheses (i.e. twenty-one), I also had to account for this in the dictionary
-                nums.append(int(21))
-            if word == 'twentytwo':
-                nums.append(int(22))
-            if word == 'twentythree':
-                nums.append(int(23))
-            if word == 'twentyfour':
-                nums.append(int(24))
-            if word == 'twentyfive':
-                nums.append(int(25))
-            if word == 'twentysix':
-                nums.append(int(26))
-            if word == 'twentyseven':
-                nums.append(int(27))
-            if word == 'twentyeight':
-                nums.append(int(28))
-            if word == 'twentynine':
-                nums.append(int(29))
-            if word == 'thirty':
-                nums.append(int(30))
-            if word == 'thirtyone':
-                nums.append(int(31))
-            if word == 'thirtytwo':
-                nums.append(int(32))
-            if word == 'thirtythree':
-                nums.append(int(33))
-            if word == 'thirtyfour':
-                nums.append(int(34))
-            if word == 'thirtyfive':
-                nums.append(int(35))
-            if word == 'thirtysix':
-                nums.append(int(36))
-            if word == 'thirtyseven':
-                nums.append(int(37))
-            if word == 'thirtyeight':
-                nums.append(int(38))
-            if word == 'thirtynine':
-                nums.append(int(39))
-            if word == 'forty':
-                nums.append(int(40))
-            if word == 'fortyone':
-                nums.append(int(41))
-            if word == 'fortytwo':
-                nums.append(int(42))
-            if word == 'fortythree':
-                nums.append(int(43))
-            if word == 'fortyfour':
-                nums.append(int(44))
-            if word == 'fortyfive':
-                nums.append(int(45))
-            if word == 'fortysix':
-                nums.append(int(46))
-            if word == 'fortyseven':
-                nums.append(int(47))
-            if word == 'fortyeight':
-                nums.append(int(48))
-            if word == 'fortynine':
-                nums.append(int(49))
-            if word == 'fifty':
-                nums.append(int(50))
-            if word == 'fiftyone':
-                nums.append(int(51))
-            if word == 'fiftytwo':
-                nums.append(int(52))
-            if word == 'fiftythree':
-                nums.append(int(53))
-            if word == 'fiftyfour':
-                nums.append(int(54))
-            if word == 'fiftyfive':
-                nums.append(int(55))
-            if word == 'fiftysix':
-                nums.append(int(56))
-            if word == 'fiftyseven':
-                nums.append(int(57))
-            if word == 'fiftyeight':
-                nums.append(int(58))
-            if word == 'fiftynine':
-                nums.append(int(59))
-            if word == 'sixty':
-                nums.append(int(60))
-            if word == 'sixtyone':
-                nums.append(int(61))
-            if word == 'sixtytwo':
-                nums.append(int(62))
-            if word == 'sixtythree':
-                nums.append(int(63))
-            if word == 'sixtyfour':
-                nums.append(int(64))
-            if word == 'sixtyfive':
-                nums.append(int(65))
-            if word == 'sixtysix':
-                nums.append(int(66))
-            if word == 'sixtyseven':
-                nums.append(int(67))
-            if word == 'sixtyeight':
-                nums.append(int(68))
-            if word == 'sixtynine':
-                nums.append(int(69))
-            if word == 'seventy':
-                nums.append(int(70))
-            if word == 'seventyone':
-                nums.append(int(71))
-            if word == 'seventytwo':
-                nums.append(int(72))
-            if word == 'seventythree':
-                nums.append(int(73))
-            if word == 'seventyfour':
-                nums.append(int(74))
-            if word == 'seventyfive':
-                nums.append(int(75))
-            if word == 'seventysix':
-                nums.append(int(76))
-            if word == 'seventyseven':
-                nums.append(int(77))
-            if word == 'seventyeight':
-                nums.append(int(78))
-            if word == 'seventynine':
-                nums.append(int(79))
-            if word == 'eighty':
+            if lowerWords[i] == 'twenty':
+                if lowerWords[i + 1] == 'one':  # Accounts for numbers separated by hyphens
+                    nums.append(int(21))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(22))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(23))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(24))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(25))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(26))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(27))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(28))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(29))
+                else:
+                    nums.append(int(20))
+            if lowerWords[i] == 'thirty':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(31))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(32))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(33))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(34))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(35))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(36))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(37))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(38))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(39))
+                else:
+                    nums.append(int(30))
+            if lowerWords[i] == 'forty':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(41))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(42))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(43))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(44))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(45))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(46))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(47))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(48))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(49))
+                else:
+                    nums.append(int(40))
+            if lowerWords[i] == 'fifty':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(51))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(52))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(53))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(54))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(55))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(56))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(57))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(58))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(59))
+                else:
+                    nums.append(int(50))
+            if lowerWords[i] == 'sixty':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(61))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(62))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(63))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(64))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(65))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(66))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(67))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(68))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(69))
+                else:
+                    nums.append(int(60))
+            if lowerWords[i] == 'seventy':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(71))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(72))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(73))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(74))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(75))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(76))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(77))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(78))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(79))
+                else:
+                    nums.append(int(70))
+            if lowerWords[i] == 'eighty':
                 nums.append(int(80))
-            if word == 'eightyone':
-                nums.append(int(81))
-            if word == 'eightytwo':
-                nums.append(int(82))
-            if word == 'eightythree':
-                nums.append(int(83))
-            if word == 'eightyfour':
-                nums.append(int(84))
-            if word == 'eightyfive':
-                nums.append(int(85))
-            if word == 'eightysix':
-                nums.append(int(86))
-            if word == 'eightyseven':
-                nums.append(int(87))
-            if word == 'eightyeight':
-                nums.append(int(88))
-            if word == 'eightynine':
-                nums.append(int(89))
-            if word == 'ninety':
-                nums.append(int(90))
-            if word == 'ninetyone':
-                nums.append(int(91))
-            if word == 'ninetytwo':
-                nums.append(int(92))
-            if word == 'ninetythree':
-                nums.append(int(93))
-            if word == 'ninetyfour':
-                nums.append(int(94))
-            if word == 'ninetyfive':
-                nums.append(int(95))
-            if word == 'ninetysix':
-                nums.append(int(96))
-            if word == 'ninetyseven':
-                nums.append(int(97))
-            if word == 'ninetyeight':
-                nums.append(int(98))
-            if word == 'ninetynine':
-                nums.append(int(99))
-            if word == 'onehundred':
-                nums.append(int(100))
-            if word == 'twohundred':
-                nums.append(int(200))
-            if word == 'threehundred':
-                nums.append(int(300))
-            if word == 'fourhundred':
-                nums.append(int(400))
-            if word == 'fivehundred':
-                nums.append(int(500))
-            if word == 'sixhundred':
-                nums.append(int(600))
-            if word == 'sevenhundred':
-                nums.append(int(700))
-            if word == 'eighthundred':
-                nums.append(int(800))
-            if word == 'ninehundred':
-                nums.append(int(900))
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(81))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(82))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(83))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(84))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(85))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(86))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(87))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(88))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(89))
+                else:
+                    nums.append(int(80))
+            if lowerWords[i] == 'ninety':
+                if lowerWords[i + 1] == 'one':
+                    nums.append(int(91))
+                elif lowerWords[i + 1] == 'two':
+                    nums.append(int(92))
+                elif lowerWords[i + 1] == 'three':
+                    nums.append(int(93))
+                elif lowerWords[i + 1] == 'four':
+                    nums.append(int(94))
+                elif lowerWords[i + 1] == 'five':
+                    nums.append(int(95))
+                elif lowerWords[i + 1] == 'six':
+                    nums.append(int(96))
+                elif lowerWords[i + 1] == 'seven':
+                    nums.append(int(97))
+                elif lowerWords[i + 1] == 'eight':
+                    nums.append(int(98))
+                elif lowerWords[i + 1] == 'nine':
+                    nums.append(int(99))
+                else:
+                    nums.append(int(90))
         if len(nums) == 0:
             return 'No numbers within range detected in your passage.'
         return f'Numbers found in your passage: {nums}'
