@@ -1,9 +1,10 @@
 from dictionary import Dictionary
 import string
+import re
 
 
 class SpellChecker:
-    def __init__(self, dictionary: Dictionary, text):
+    def __init__(self, dictionary: Dictionary, passage):
         """
         Object declaration for a spell checker
         :param dictionary: the dictionary that the user will be checking their text against (for the purposes of our
@@ -11,10 +12,9 @@ class SpellChecker:
         :param text: the text that the user wants to check for spelling errors
         """
         self.dictionary = dictionary
-        newText = text.replace('-', ' ')
-        finalText = newText.translate(str.maketrans('', '', string.punctuation))  # Removes punctuation from word list (third parameter of the maketrans() function instructs the machine to remove that character if it is found (mapped to a dictionary), in this case punctuation, and then that dictionary is mapped to the text, and punctuation is removed
-        self.text = finalText.split()   # List of words to operate on for spell checking
-        self.rawText = text     # Actual passage entered by user
+        punctSep = re.compile(r"[\w']+|\s+|[^\w'\s]+")  # Separates actual words from punctuation in the list of words, which makes implementing word suggestions possible without removing punctuation
+        self.text = punctSep.findall(passage)   # List of words to operate on for spell checking
+        self.rawText = passage     # Actual passage entered by user
 
     def incorrectWords(self):
         """
@@ -24,6 +24,8 @@ class SpellChecker:
         """
         incorrect = []
         for word in self.text:
+            if word in string.punctuation or word == ' ':
+                continue
             if word not in self.dictionary.dict:
                 finalChecker = chr(ord(word[0]) + 32) + word[1:]  # Accounts for uppercase characters (not present in the dictionaries I make use of)
                 if finalChecker not in self.dictionary.dict:  # Adds the word to the incorrect list if it cannot be found in the dictionary
@@ -58,8 +60,12 @@ class SpellChecker:
                     newWord = ''.join(listed)   # Rejoin the list of characters into a word
                     if newWord in self.dictionary.dict:
                         if newWord not in suggested:  # Accounting for repeated incorrect entries
-                            print('Unknown word: ', word, '. Did you mean "', newWord, '"?', sep='')
+                            print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes", or "No"')
+                            statement = input()
+                            if statement == 'Yes':
+                                self.text[self.text.index(word)] = newWord
                             suggested.append(newWord)
+        self.rawText = ''.join(self.text)
         return
 
     def checkDoubleLetters(self):
@@ -75,9 +81,11 @@ class SpellChecker:
             newWord = ''.join(listed)  # Rejoin the list of characters into a word
             if newWord in self.dictionary.dict:
                 if newWord not in seen:  # Accounting for repeated incorrect entries
-                    print('Unknown word: ', word, '. Did you mean "', newWord, '"?', sep='')
+                    print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes", or "No"')
+                    statement = input()
+                    if statement == 'Yes':
+                        self.text[self.text.index(word)] = newWord
                     seen.append(word)
-
 
     def removeDoubleChars(self):
         """
@@ -332,4 +340,8 @@ class SpellChecker:
         Returns a word count for the user's entered passage
         :return: a word count for the user's text
         """
-        return len(self.text)
+        counter = 0
+        for word in self.text:
+            if word not in string.punctuation and word != ' ':
+                counter += 1
+        return counter
