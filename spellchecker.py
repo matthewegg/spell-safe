@@ -12,7 +12,7 @@ class SpellChecker:
         :param text: the text that the user wants to check for spelling errors
         """
         self.dictionary = dictionary
-        punctSep = re.compile(r"[\w']+|\s+|[^\w'\s]+")  # Separates actual words from punctuation in the list of words, which makes implementing word suggestions possible without removing punctuation
+        punctSep = re.compile(r"[\w']+|\s+|[^\w'\s]+")  # Separates actual words from punctuation in the list version of the passage, which makes implementing word suggestions possible without removing punctuation
         self.text = punctSep.findall(passage)   # List of words to operate on for spell checking
         self.rawText = passage     # Actual passage entered by user
 
@@ -29,7 +29,7 @@ class SpellChecker:
             if word not in self.dictionary.dict:
                 finalChecker = chr(ord(word[0]) + 32) + word[1:]  # Accounts for uppercase characters (not present in the dictionaries I make use of)
                 if finalChecker not in self.dictionary.dict:  # Adds the word to the incorrect list if it cannot be found in the dictionary
-                    incorrect.append(word)
+                    incorrect.append(word.lower())
         return incorrect
 
     def getIncorrectWords(self):
@@ -60,11 +60,17 @@ class SpellChecker:
                     newWord = ''.join(listed)   # Rejoin the list of characters into a word
                     if newWord in self.dictionary.dict:
                         if newWord not in suggested:  # Accounting for repeated incorrect entries
-                            print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes", or "No"')
+                            print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes" if so.')
                             statement = input()
                             if statement == 'Yes':
-                                self.text[self.text.index(word)] = newWord
-                            suggested.append(newWord)
+                                if word not in self.text:
+                                    if word.capitalize() in self.text:
+                                        self.text[self.text.index(word.capitalize())] = newWord.capitalize()
+                                    else:
+                                        print(f'"{word}" was not found in its expected location. You must have corrected it already.')
+                                else:
+                                    self.text[self.text.index(word)] = newWord
+                                suggested.append(newWord)
         self.rawText = ''.join(self.text)
         return
 
@@ -75,7 +81,7 @@ class SpellChecker:
             return 'No incorrectly spelled words detected.'
         for word in incorrectWords:
             listed = list(word)
-            for i in range(len(listed) - 1, 0, -1):  # Traverse the word in reverse order (had errors trying to access invalid indices when I tried to traverse forward
+            for i in range(len(listed) - 1, 0, -1):  # Traverse the word in reverse order (had errors trying to access invalid indices when I tried to traverse forward)
                 if listed[i] == listed[i - 1]:  # Checks adjacent characters for sameness
                     listed.pop(i)
             newWord = ''.join(listed)  # Rejoin the list of characters into a word
@@ -84,8 +90,14 @@ class SpellChecker:
                     print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes", or "No"')
                     statement = input()
                     if statement == 'Yes':
+                        if word not in self.text:
+                            if word.capitalize() in self.text:
+                                self.text[self.text.index(word.capitalize())] = newWord.capitalize()
+                            else:
+                                print(f'"{word}" was not found in its expected location. You must have corrected it already.')
+                    else:
                         self.text[self.text.index(word)] = newWord
-                    seen.append(word)
+                    seen.append(newWord)
 
     def removeDoubleChars(self):
         """
