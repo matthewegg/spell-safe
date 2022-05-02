@@ -72,6 +72,10 @@ class SpellChecker:
         return
 
     def checkDoubleLetters(self):
+        """
+        Utilizes spell-checking based on the presence of double characters in a word.
+        :return: When the user's list of incorrect words has been iterated through
+        """
         incorrectWords = self.incorrectWords()
         seen = []
         if len(incorrectWords) == 0:
