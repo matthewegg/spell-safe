@@ -45,7 +45,6 @@ class SpellChecker:
         to the user if it is found in their dictionary
         :return: When the function is finished operating on incorrectly spelled words
         """
-        suggested = []
         incorrectWords = self.incorrectWords()  # Getting a list of incorrectly spelled words
         if len(incorrectWords) == 0:
             return 'No incorrectly spelled words detected.'
@@ -59,18 +58,16 @@ class SpellChecker:
                     listed[i], listed[j] = listed[j], listed[i]
                     newWord = ''.join(listed)   # Rejoin the list of characters into a word
                     if newWord in self.dictionary.dict:
-                        if newWord not in suggested:  # Accounting for repeated incorrect entries
-                            print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes" if so.')
-                            statement = input()
-                            if statement == 'Yes':
-                                if word not in self.text:
-                                    if word.capitalize() in self.text:
-                                        self.text[self.text.index(word.capitalize())] = newWord.capitalize()
-                                    else:
-                                        print(f'"{word}" was not found in its expected location. You must have corrected it already.')
+                        print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes" if so.')
+                        statement = input()
+                        if statement == 'Yes':
+                            if word not in self.text:
+                                if word.capitalize() in self.text:
+                                            self.text[self.text.index(word.capitalize())] = newWord.capitalize()
                                 else:
-                                    self.text[self.text.index(word)] = newWord
-                                suggested.append(newWord)
+                                            print(f'"{word}" was not found in its expected location. You must have corrected it already.')
+                            else:
+                                self.text[self.text.index(word)] = newWord
         self.rawText = ''.join(self.text)
         return
 
@@ -87,17 +84,19 @@ class SpellChecker:
             newWord = ''.join(listed)  # Rejoin the list of characters into a word
             if newWord in self.dictionary.dict:
                 if newWord not in seen:  # Accounting for repeated incorrect entries
-                    print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes", or "No"')
+                    print(f'Unknown word: {word}. Did you mean "{newWord}"? Enter "Yes" if so.')
                     statement = input()
                     if statement == 'Yes':
                         if word not in self.text:
                             if word.capitalize() in self.text:  # To account for capitalized words
-                                self.text[self.text.index(word.capitalize())] = newWord.capitalize()
+                                    self.text[self.text.index(word.capitalize())] = newWord.capitalize()
                             else:
                                 print(f'"{word}" was not found in its expected location. You must have corrected it already.')
-                    else:
-                        self.text[self.text.index(word)] = newWord
-                    seen.append(newWord)
+                        else:
+                            self.text[self.text.index(word)] = newWord
+                        seen.append(newWord)
+        self.rawText = ''.join(self.text)
+        return
 
     def removeDoubleChars(self):
         """

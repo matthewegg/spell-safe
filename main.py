@@ -38,7 +38,7 @@ while key != 8:
         try:
             key = int(input('\nEnter your next action\n1: Enter text to check\n2: Check your spelling by character '
                             'swapping\n3: Check '
-                            'spelling by double letters\n4: Print your passage\n5: Get a list of numbers (<= 20, '
+                            'spelling by double letters\n4: Print your passage\n5: Get a list of numbers (<= 99, '
                             'only functional in English) found in your '
                             'passage\n6: Inspect your dictionary\n7: Get a word count for your passage\n8: Exit the '
                             'application\n'))
