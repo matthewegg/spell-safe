@@ -18,7 +18,7 @@ key = 1
 print('Welcome to SpellChecker!')
 while key != 8:
     if key == 1:
-        text = input('Enter a passage of text (avoid hyphenated words): ')
+        text = input('Enter a passage of text (avoid return statements within the passage): ')
         checker = SpellChecker(dict, text)
         print('Process complete.')
     elif key == 2:
