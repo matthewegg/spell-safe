@@ -3,7 +3,7 @@ import string
 import re
 
 
-class SpellChecker:
+class SpellChecker():
     def __init__(self, dictionary: Dictionary, passage):
         """
         Object declaration for a spell checker
@@ -12,7 +12,7 @@ class SpellChecker:
         :param passage: the text that the user wants to check for spelling errors
         """
         self.dictionary = dictionary
-        punctSep = re.compile(r"[\w']+|\s+|[^\w'\s]+")  # Separates actual words from punctuation in the list version of the passage, which makes implementing word suggestions possible without removing punctuation
+        punctSep = re.compile(r"[\w]+|\s+|[^\w\s]+")  # Separates actual words from punctuation in the list version of the passage, which makes implementing word suggestions possible without removing punctuation
         self.text = punctSep.findall(passage)   # List of words to operate on for spell checking, separated from punctuation
         self.rawText = passage     # Actual passage entered by user
 
